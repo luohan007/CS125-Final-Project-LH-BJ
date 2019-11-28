@@ -20,8 +20,6 @@ public class Markers {
      * Finished by Bojiang Li on 11/27/2019.
      *
      */
-
-
     public void MarkerOptions() {
 
             LatLng ACES_Library = new LatLng(40.103039, -88.225101);
@@ -116,7 +114,6 @@ public class Markers {
 
             LatLng OrchardDowns = new LatLng(40.092415, -88.211066);
             MarkerOptions OrchardDownsMarkers = new MarkerOptions().position(OrchardDowns).title("Orchard Downs Apartment");
-
 
             LatLng PAR = new LatLng(40.099958, -88.220789);
             MarkerOptions PARMarker = new MarkerOptions().position(PAR).title("Pennsylvania Avenue Residence");

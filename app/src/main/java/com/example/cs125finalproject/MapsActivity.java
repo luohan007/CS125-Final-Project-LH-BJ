@@ -48,4 +48,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Jenny 1127 end.
 
     }
+
+
 }
