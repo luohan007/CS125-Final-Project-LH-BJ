@@ -11,9 +11,35 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+//Jenny 1127 22:10 start:
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+//Jenny 1127 22:10 end.
 
-    private GoogleMap mMap;
+//Jenny 1128 start:
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+//Jenny 1128 end.
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+    private GoogleMap map;
+
+    //Jenny 1127 22:10 start:
+    /** Create a MarkerOptions object to specify where we want the marker. */
+    private MarkerOptions options;
+
+    /** Add it to the map - Google Maps gives us the created Marker. */
+    private Marker marker;
+
+    /** The list of Markers that mark the printers. */
+    private List<Marker> markers = new ArrayList();
+    //Jenny 1127 22:10 end.
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +63,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        map = googleMap;
 
-        //Jenny 1127 start:
+        //Jenny 1127 22:00 start:
+        placeMarker();
+        //Jenny 1127 22:00 end.
+
+        //Jenny 1127 16:00 start:
         // Add a marker to each of the printers on UIUC campus.
         // "ACES AESB"
         LatLng ACES_AESB = new LatLng(40.103612, -88.226026);
-        mMap.addMarker(new MarkerOptions().position(ACES_AESB).title("ACES AESB"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(ACES_AESB));
-        //Jenny 1127 end.
+        map.moveCamera(CameraUpdateFactory.newLatLng(ACES_AESB));
+        //Jenny 1127 16:00 end.
+
+
 
     }
+
+    //Jenny 1127 22:00 start:
+    public void placeMarker() { // Suppose position is a LatLng variable
+
+        //Information about the list of printers is added to be stored in "printerLocationMap"
+        Printers.addPrintersToList();
+
+        for (Map.Entry<String, LatLng> entry : Printers.printerLocationMap.entrySet()) {
+            //iterate through each printer:
+
+            String printerLocationName = entry.getKey(); //name of the building where the printer is
+            LatLng printerLocation = entry.getValue(); //location of the printer
+
+            //Add a marker to the location of each printer, with title being the building name.
+            options = new MarkerOptions().position(printerLocation)
+                    .title(printerLocationName);
+            marker = map.addMarker(options);
+
+            //Set the default color of the marker to be blue.
+            BitmapDescriptor defaultColor = BitmapDescriptorFactory.defaultMarker(Printers.defaultMarkerColor);
+            marker.setIcon(defaultColor);
+
+            //Add each marker to "markers", the list of markers.
+            markers.add(marker);
+        }
+    }
+
+    //Jenny 1127 22:00 end.
 
 
 }
