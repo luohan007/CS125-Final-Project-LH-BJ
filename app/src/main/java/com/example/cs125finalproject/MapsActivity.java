@@ -26,6 +26,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 //Jenny 1128 end.
 
+//1130 21:00 start:
+import android.util.Pair;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
+//1130 21:00 end.
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap map;
 
@@ -77,7 +82,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Jenny 1127 16:00 end.
 
 
-
     }
 
     //Jenny 1127 22:00 start:
@@ -86,15 +90,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Information about the list of printers is added to be stored in "printerLocationMap"
         Printers.addPrintersToList();
 
-        for (Map.Entry<String, LatLng> entry : Printers.printerLocationMap.entrySet()) {
+        for (Map.Entry<String, Pair<LatLng, String>> entry : Printers.printerLocationMap.entrySet()) {
             //iterate through each printer:
 
             String printerLocationName = entry.getKey(); //name of the building where the printer is
-            LatLng printerLocation = entry.getValue(); //location of the printer
+            LatLng printerLocation = entry.getValue().first; //location of the printer
+            String printerInfo = entry.getValue().second;
 
             //Add a marker to the location of each printer, with title being the building name.
             options = new MarkerOptions().position(printerLocation)
-                    .title(printerLocationName);
+                    .title(printerLocationName).snippet(printerInfo);
             marker = map.addMarker(options);
 
             //Set the default color of the marker to be blue.
